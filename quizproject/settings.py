@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-9a)(a$1qeznu*+7q30wq16v-h-=kvbt!a!=c_3-ie%!i$4v7&5
 DEBUG = False
 
 # Temporaire, on mettra le domaine Render après (ex: ton-app.onrender.com)
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["quiz-django-k0hh.onrender.com"]
+
 
 
 # Application definition
