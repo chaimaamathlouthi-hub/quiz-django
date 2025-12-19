@@ -1,0 +1,119 @@
+{% extends "quiz/base.html" %}
+{% block title %}Créer un quiz complet{% endblock %}
+
+{% block content %}
+<h1>Créer un quiz (avec questions + choix)</h1>
+<p class="muted">Ajoute tes questions et leurs choix. Coche la bonne réponse.</p>
+
+<form method="post" id="quizForm">
+  {% csrf_token %}
+
+  <div class="row" style="display:block;">
+    <label><b>Titre</b></label>
+    <input type="text" name="title" required
+           style="width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:12px;">
+  </div>
+
+  <div class="row" style="display:block; margin-top:12px;">
+    <label><b>Description</b> <span class="muted">(optionnel)</span></label>
+    <textarea name="description" rows="3"
+              style="width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:12px;"></textarea>
+  </div>
+
+  <hr style="margin:18px 0;">
+
+  <input type="hidden" name="question_count" id="question_count" value="0">
+
+  <div id="questions"></div>
+
+  <!-- ✅ Bouton ajouter question plus joli -->
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" onclick="addQuestion()">
+      ➕ Ajouter une question
+    </button>
+  </div>
+
+  <!-- ✅ Boutons bas (Créer / Annuler) plus jolis -->
+  <div class="btn-group">
+    <button class="btn btn-success" type="submit">
+       Créer le quiz
+    </button>
+
+    <a class="btn btn-danger" href="{% url 'quiz_list' %}">
+      ✖ Annuler
+    </a>
+  </div>
+</form>
+
+<script>
+let qIndex = 0;
+
+function addQuestion() {
+  const container = document.getElementById("questions");
+
+  const qBox = document.createElement("div");
+  qBox.style.margin = "14px 0";
+  qBox.style.padding = "14px";
+  qBox.style.border = "1px solid #e5e7eb";
+  qBox.style.borderRadius = "14px";
+
+  qBox.innerHTML = `
+    <h3 style="margin:0 0 10px;">Question ${qIndex + 1}</h3>
+
+    <label><b>Texte de la question</b></label>
+    <input type="text" name="q_${qIndex}_text" required
+      style="width:100%; padding:10px; border:1px solid #e5e7eb; border-radius:12px; margin:6px 0 12px;">
+
+    <input type="hidden" name="q_${qIndex}_choice_count" id="q_${qIndex}_choice_count" value="0">
+    <div id="q_${qIndex}_choices"></div>
+
+    <div class="btn-group" style="margin-top:10px;">
+      <button type="button" class="btn btn-primary" onclick="addChoice(${qIndex})">
+        ➕ Ajouter un choix
+      </button>
+
+      <button type="button" class="btn btn-danger" onclick="removeQuestion(this)">
+        🗑 Supprimer question
+      </button>
+    </div>
+
+    <p class="muted" style="margin-top:10px;">
+      ⚠️ Coche la bonne réponse (radio) pour cette question.
+    </p>
+  `;
+
+  container.appendChild(qBox);
+
+  qIndex++;
+  document.getElementById("question_count").value = qIndex;
+}
+
+function addChoice(qi) {
+  const choicesDiv = document.getElementById(`q_${qi}_choices`);
+  const countInput = document.getElementById(`q_${qi}_choice_count`);
+  let cIndex = parseInt(countInput.value);
+
+  const row = document.createElement("div");
+  row.style.display = "flex";
+  row.style.gap = "10px";
+  row.style.alignItems = "center";
+  row.style.margin = "8px 0";
+
+  row.innerHTML = `
+    <input type="radio" name="q_${qi}_correct" value="${cIndex}" required>
+    <input type="text" name="q_${qi}_c_${cIndex}" placeholder="Texte du choix"
+      style="flex:1; padding:10px; border:1px solid #e5e7eb; border-radius:12px;" required>
+    <button type="button" class="btn btn-secondary" onclick="this.parentElement.remove();">✖</button>
+  `;
+
+  choicesDiv.appendChild(row);
+
+  cIndex++;
+  countInput.value = cIndex;
+}
+
+function removeQuestion(btn) {
+  btn.closest("div").remove();
+}
+</script>
+{% endblock %}

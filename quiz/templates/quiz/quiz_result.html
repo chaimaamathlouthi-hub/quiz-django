@@ -1,0 +1,15 @@
+{% extends "quiz/base.html" %}
+{% block title %}Résultat{% endblock %}
+
+{% block content %}
+  <h1>Résultat : {{ quiz.title }}</h1>
+
+  <p class="muted">
+    Score : <b>{{ attempt.score }}</b> / <b>{{ quiz.questions.count }}</b>
+  </p>
+
+  <p>
+    <a class="btn btn-primary" href="{% url 'quiz_scores' quiz.id %}">Voir les scores</a>
+    <a class="btn btn-secondary" href="{% url 'quiz_list' %}">Retour</a>
+  </p>
+{% endblock %}

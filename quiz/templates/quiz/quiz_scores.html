@@ -1,0 +1,33 @@
+{% extends "quiz/base.html" %}
+{% block title %}Scores{% endblock %}
+
+{% block content %}
+  <h1>Scores – {{ quiz.title }}</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Utilisateur</th>
+        <th>Score</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in attempts %}
+        <tr>
+          <td>{{ a.user.username }}</td>
+          <td><b>{{ a.score }}</b></td>
+          <td>{{ a.completed_at }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3" class="muted">Aucun score pour ce quiz.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p style="margin-top:14px;">
+    <a class="btn secondary" href="{% url 'quiz_list' %}">⬅ Retour</a>
+  </p>
+{% endblock %}

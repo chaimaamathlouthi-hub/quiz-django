@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Quiz Django{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body{ margin:0; font-family: Arial, Helvetica, sans-serif; background:#f4f6fb; }
+    .container{ max-width:900px; margin:30px auto; padding:0 15px; }
+    .topbar{
+      background:white; padding:15px 20px; border-radius:12px;
+      display:flex; justify-content:space-between; align-items:center;
+      box-shadow:0 4px 15px rgba(0,0,0,.1);
+    }
+    .brand{ font-weight:bold; font-size:18px; }
+    .nav{ display:flex; align-items:center; gap:10px; }
+    .nav a, .nav button{
+      background:none; border:none; padding:8px 12px; border-radius:8px;
+      cursor:pointer; font-size:14px; text-decoration:none; color:#333;
+    }
+    .nav a:hover, .nav button:hover{ background:#e0e7ff; color:#1d4ed8; }
+    .card{
+      margin-top:20px; background:white; padding:20px; border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.1);
+    }
+    /* ===== Boutons modernes ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: white;
+}
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">🧠 Quiz Django</div>
+
+     <div class="nav">
+  <a href="{% url 'quiz_list' %}">Accueil</a>
+  <a href="{% url 'quiz_create_full' %}">Créer un quiz</a>
+
+  <form method="post" action="{% url 'logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Déconnexion</button>
+  </form>
+</div>
+
+    </div>
+
+    <div class="card">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+</html>

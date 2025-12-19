@@ -1,0 +1,38 @@
+{% extends "quiz/base.html" %}
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ quiz.title }}</h1>
+  {% if quiz.description %}
+    <p class="muted">{{ quiz.description }}</p>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% for q in questions %}
+      <div style="margin:14px 0; padding:14px; border:1px solid #e5e7eb; border-radius:14px;">
+        <b>{{ forloop.counter }}. {{ q.text }}</b>
+
+        <div style="margin-top:10px;">
+          {% for c in q.choices.all %}
+            <label style="display:block; padding:8px 10px; border:1px solid #e5e7eb; border-radius:12px; margin:8px 0;">
+              <input type="radio"
+                     name="question_{{ q.id }}"
+                     value="{{ c.id }}"
+                     required>
+              {{ c.text }}
+            </label>
+          {% empty %}
+            <p class="muted">Aucun choix pour cette question.</p>
+          {% endfor %}
+        </div>
+      </div>
+    {% empty %}
+      <p class="muted">Aucune question dans ce quiz.</p>
+    {% endfor %}
+
+    <button class="btn btn-success" type="submit">Valider</button>
+  </form>
+{% endblock %}
+return redirect("quiz_result", attempt_id=attempt.id)

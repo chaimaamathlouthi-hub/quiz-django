@@ -1,0 +1,54 @@
+{% extends "quiz/base.html" %}
+
+{% block title %}Liste des quiz{% endblock %}
+
+{% block content %}
+  <h1>Liste des quiz</h1>
+  <p class="muted">Choisis un quiz, passe-le, puis consulte les scores.</p>
+
+  <p style="margin: 14px 0;">
+  <a class="btn btn-primary" href="{% url 'quiz_create_full' %}">
+    ➕ Créer un quiz 
+  </a>
+</p>
+
+  <ul class="clean">
+    {% for q in quizzes %}
+      <li class="row">
+        <div>
+          <b>{{ q.title }}</b>
+          {% if q.description %}
+            <div class="muted">{{ q.description }}</div>
+          {% endif %}
+        </div>
+
+        <div class="actions">
+  <a class="btn btn-primary" href="{% url 'take_quiz' q.id %}">
+     ▶ Passer
+  </a>
+
+  <a class="btn btn-secondary" href="{% url 'quiz_scores' q.id %}">
+    📊 Scores
+  </a>
+
+  <form method="post" action="{% url 'quiz_delete' q.id %}" style="display:inline;">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit"
+            onclick="return confirm('Supprimer ce quiz ?');">
+      🗑 Supprimer
+    </button>
+  </form>
+</div>
+
+      </li>
+    {% empty %}
+      <li class="row">
+        <div>
+          <b>Aucun quiz disponible.</b>
+          <span class="muted">Crée le premier.</span>
+        </div>
+        <div><span class="pill">Vide</span></div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

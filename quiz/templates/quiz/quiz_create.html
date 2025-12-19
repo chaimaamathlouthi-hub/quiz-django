@@ -1,0 +1,14 @@
+{% extends "quiz/base.html" %}
+{% block title %}Créer un quiz{% endblock %}
+
+{% block content %}
+  <h1>Créer un quiz</h1>
+  <p class="muted">Donne un titre, ajoute une description si tu veux.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Créer</button>
+    <a class="btn secondary" href="{% url 'quiz_list' %}" style="margin-left:10px;">Annuler</a>
+  </form>
+{% endblock %}

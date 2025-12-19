@@ -1,0 +1,21 @@
+{% extends "quiz/base.html" %}
+{% block title %}Supprimer le quiz{% endblock %}
+
+{% block content %}
+  <h1>Supprimer le quiz</h1>
+
+  <p>
+    Es-tu sûr de vouloir supprimer le quiz :
+    <b>{{ quiz.title }}</b> ?
+  </p>
+
+  <p class="muted">
+    Cette action est définitive (questions, choix et scores seront supprimés).
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn danger" type="submit">🗑 Supprimer</button>
+    <a class="btn secondary" href="{% url 'quiz_list' %}">Annuler</a>
+  </form>
+{% endblock %}

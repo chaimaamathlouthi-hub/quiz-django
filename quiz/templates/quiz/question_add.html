@@ -1,0 +1,30 @@
+{% extends "quiz/base.html" %}
+{% block title %}Questions{% endblock %}
+
+{% block content %}
+  <h1>Questions – {{ quiz.title }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Ajouter la question</button>
+  </form>
+
+  <hr>
+
+  <h3>Questions existantes</h3>
+  <ul>
+    {% for q in questions %}
+      <li>
+        {{ q.text }}
+        — <a href="{% url 'choice_add' q.id %}">Ajouter les choix</a>
+      </li>
+    {% empty %}
+      <li class="muted">Aucune question pour l’instant.</li>
+    {% endfor %}
+  </ul>
+
+  <p style="margin-top:14px;">
+    <a class="btn secondary" href="{% url 'quiz_list' %}">⬅ Retour</a>
+  </p>
+{% endblock %}

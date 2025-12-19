@@ -1,0 +1,19 @@
+{% extends "quiz/base.html" %}
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div style="max-width:520px;margin:0 auto;">
+  <h1 style="margin:0 0 6px;">Inscription</h1>
+  <p class="muted" style="margin-top:0;">Crée un compte pour passer les quiz.</p>
+
+  <form method="post" style="margin-top:14px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="btn-group">
+      <button class="btn btn-success" type="submit">Créer mon compte</button>
+      <a class="btn btn-secondary" href="{% url 'login' %}">Retour</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
